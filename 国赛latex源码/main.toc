@@ -1,0 +1,27 @@
+\contentsline {section}{\numberline {一、}问题重述}{2}{section.1}%
+\contentsline {subsection}{\numberline {1\,.\,1}问题背景}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1\,.\,2}问题重述}{2}{subsection.1.2}%
+\contentsline {section}{\numberline {二、}模型假设}{2}{section.2}%
+\contentsline {section}{\numberline {三、}符号说明}{3}{section.3}%
+\contentsline {section}{\numberline {四、}问题分析}{3}{section.4}%
+\contentsline {subsection}{\numberline {4\,.\,1}问题一分析}{3}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4\,.\,2}问题二分析}{4}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4\,.\,3}问题三分析}{4}{subsection.4.3}%
+\contentsline {section}{\numberline {五、}问题一模型建立与求解}{5}{section.5}%
+\contentsline {subsection}{\numberline {5\,.\,1}基本数据的求解}{5}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5\,.\,2}阴影遮挡效率计算}{6}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5\,.\,3}余弦效率的计算}{8}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5\,.\,4}大气透射率的计算}{9}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5\,.\,5}截断效率的计算}{10}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5\,.\,6}问题一求解及结果展示}{11}{subsection.5.6}%
+\contentsline {section}{\numberline {六、}第二问模型建立与求解}{13}{section.6}%
+\contentsline {subsection}{\numberline {6\,.\,1}布局优化}{13}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6\,.\,2}问题二求解及结果展示}{14}{subsection.6.2}%
+\contentsline {section}{\numberline {七、}模型评价}{17}{section.7}%
+\contentsline {subsection}{\numberline {7\,.\,1}模型检验}{17}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7\,.\,2}模型优点}{18}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7\,.\,3}模型缺点}{18}{subsection.7.3}%
+\contentsline {section}{参考文献}{19}{section*.18}%
+\contentsline {section}{附录 \numberline {A}问题一Python代码}{22}{appendix.a.A}%
+\contentsline {section}{附录 \numberline {B}问题一MATLAB代码}{24}{appendix.a.B}%
+\contentsfinish 

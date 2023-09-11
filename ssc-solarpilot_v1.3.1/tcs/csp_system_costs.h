@@ -1,0 +1,231 @@
+/*******************************************************************************************************
+*  Copyright 2017 Alliance for Sustainable Energy, LLC
+*
+*  NOTICE: This software was developed at least in part by Alliance for Sustainable Energy, LLC
+*  (“Alliance”) under Contract No. DE-AC36-08GO28308 with the U.S. Department of Energy and the U.S.
+*  The Government retains for itself and others acting on its behalf a nonexclusive, paid-up,
+*  irrevocable worldwide license in the software to reproduce, prepare derivative works, distribute
+*  copies to the public, perform publicly and display publicly, and to permit others to do so.
+*
+*  Redistribution and use in source and binary forms, with or without modification, are permitted
+*  provided that the following conditions are met:
+*
+*  1. Redistributions of source code must retain the above copyright notice, the above government
+*  rights notice, this list of conditions and the following disclaimer.
+*
+*  2. Redistributions in binary form must reproduce the above copyright notice, the above government
+*  rights notice, this list of conditions and the following disclaimer in the documentation and/or
+*  other materials provided with the distribution.
+*
+*  3. The entire corresponding source code of any redistribution, with or without modification, by a
+*  research entity, including but not limited to any contracting manager/operator of a United States
+*  National Laboratory, any institution of higher learning, and any non-profit organization, must be
+*  made publicly available under this license for as long as the redistribution is made available by
+*  the research entity.
+*
+*  4. Redistribution of this software, without modification, must refer to the software by the same
+*  designation. Redistribution of a modified version of this software (i) may not refer to the modified
+*  version by the same designation, or by any confusingly similar designation, and (ii) must refer to
+*  the underlying software originally provided by Alliance as “System Advisor Model” or “SAM”. Except
+*  to comply with the foregoing, the terms “System Advisor Model”, “SAM”, or any confusingly similar
+*  designation may not be used to refer to any modified version of this software or any modified
+*  version of the underlying software originally provided by Alliance without the prior written consent
+*  of Alliance.
+*
+*  5. The name of the copyright holder, contributors, the United States Government, the United States
+*  Department of Energy, or any of their employees may not be used to endorse or promote products
+*  derived from this software without specific prior written permission.
+*
+*  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+*  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+*  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER,
+*  CONTRIBUTORS, UNITED STATES GOVERNMENT OR UNITED STATES DEPARTMENT OF ENERGY, NOR ANY OF THEIR
+*  EMPLOYEES, BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+*  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+*  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+*  IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
+*  THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*******************************************************************************************************/
+
+#ifndef __csp_system_costs_
+#define __csp_system_costs_
+
+#include <limits>
+
+class C_mspt_system_costs
+{
+public:
+
+	struct S_cost_model_parameters
+	{
+			// Heliostat Field
+		double A_sf_refl;				//[m^2] Total solar field reflective area
+		double site_improv_spec_cost;	//[$/m^2_reflect] Site improvement specific cost
+		double heliostat_spec_cost;		//[$/m^2_reflect] Heliostat specific cost
+		double heliostat_fixed_cost;	//[$] Heliostat fixed cost
+
+			// Tower
+		double h_tower;					//[m] Tower height
+		double h_rec;					//[m] Receiver height
+		double h_helio;					//[m] Heliostat height
+		double tower_fixed_cost;		//[$] Tower fixed cost
+		double tower_cost_scaling_exp;	//[-] Tower cost scaling exponent
+
+			// Receiver
+		double A_rec;					//[m^2] Receiver area
+		double rec_ref_cost;			//[$] Receiver reference cost
+		double A_rec_ref;				//[m^2] Receiver reference area
+		double rec_cost_scaling_exp;	//[-] Receiver cost scaling exponent
+
+			// TES
+		double Q_storage;				//[MWt-hr] Storage capacity
+		double tes_spec_cost;			//[$/kWt-hr] TES specific cost
+
+			// Power Cycle
+		double W_dot_design;			//[MWe] Power cycle design output (w/o subtracting plant parasitics)
+		double power_cycle_spec_cost;	//[$/kWe] Power cycle specific cost
+
+			// Balance Of Plant
+		double bop_spec_cost;			//[$/kWe] BOP specific cost
+
+			// Fossil Backup Cost
+		double fossil_backup_spec_cost;	//[$/kWe] Fossil backup specific cost
+
+			// Contingency Cost
+		double contingency_rate;		//[%] Of precontingency direct capital costs
+
+			// Indirect Capital Costs
+		double total_land_area;			//[acres]
+		double plant_net_capacity;		//[MWe] Nameplate plant capacity (Net cycle output less estimated parasitics)
+		double EPC_land_spec_cost;		//[$/acre]
+		double EPC_land_perc_direct_cost;	//[%] Of calculated direct cost
+		double EPC_land_per_power_cost;		//[$/We] Of plant net capacity
+		double EPC_land_fixed_cost;		//[$]
+		double total_land_spec_cost;	//[$/acre]
+		double total_land_perc_direct_cost;	//[%] Of calculated direct cost
+		double total_land_per_power_cost;	//[$/We] Of plant net capacity
+		double total_land_fixed_cost;	//[$]
+		double sales_tax_basis;			//[%] Of total direct cost
+		double sales_tax_rate;			//[%]
+
+		S_cost_model_parameters()
+		{
+			A_sf_refl = site_improv_spec_cost = heliostat_spec_cost = heliostat_fixed_cost = 
+				h_tower = h_rec = h_helio = tower_fixed_cost = tower_cost_scaling_exp = 
+				A_rec = rec_ref_cost = A_rec_ref = rec_cost_scaling_exp = 
+				Q_storage = tes_spec_cost = W_dot_design = power_cycle_spec_cost = bop_spec_cost = fossil_backup_spec_cost = contingency_rate =
+				total_land_area = plant_net_capacity = EPC_land_spec_cost = EPC_land_perc_direct_cost = EPC_land_per_power_cost = EPC_land_fixed_cost = 
+				total_land_spec_cost = total_land_perc_direct_cost = total_land_per_power_cost = total_land_fixed_cost = sales_tax_basis = sales_tax_rate =
+				std::numeric_limits<double>::quiet_NaN();
+		}
+
+	};
+
+	struct S_cost_model_outputs
+	{
+		double site_improvement_cost;	//[$]
+		double heliostat_cost;			//[$]
+		double tower_cost;				//[$]
+		double receiver_cost;			//[$]
+		double tes_cost;				//[$]
+		double power_cycle_cost;		//[$]
+		double bop_cost;				//[$]
+		double fossil_backup_cost;		//[$]
+		double direct_capital_precontingency_cost;	//[$]
+		double contingency_cost;		//[$]
+		double total_direct_cost;		//[$]
+		double epc_and_owner_cost;		//[$]
+		double total_land_cost;			//[$]
+		double sales_tax_cost;			//[$]
+		double total_indirect_cost;		//[$]
+		double total_installed_cost;	//[$]
+		double estimated_installed_cost_per_cap;	//[$]
+
+		S_cost_model_outputs()
+		{
+			site_improvement_cost = heliostat_cost = tower_cost = receiver_cost = tes_cost = power_cycle_cost = bop_cost = fossil_backup_cost =
+				direct_capital_precontingency_cost = contingency_cost = total_direct_cost = epc_and_owner_cost = total_land_cost = 
+				sales_tax_cost = total_indirect_cost = total_installed_cost = estimated_installed_cost_per_cap = 
+				std::numeric_limits<double>::quiet_NaN();
+		}
+	};
+
+	S_cost_model_parameters ms_par;
+
+	S_cost_model_outputs ms_out;
+
+	C_mspt_system_costs(){};
+
+	~C_mspt_system_costs(){};
+
+	void calculate_costs();
+
+	void check_parameters_are_set();
+
+};
+
+namespace N_mspt
+{
+	double site_improvement_cost(double A_refl /*m^2*/, double site_improv_spec_cost /*$/m^2_reflect*/);
+
+	double heliostat_cost(double A_refl /*m^2*/, double heliostat_spec_cost /*$/m^2*/, double heliostate_fixed_cost /*$*/ );
+
+	double tower_cost(double h_tower /*m*/, double h_rec /*m*/, double h_helio /*m*/, double tower_fixed_cost /*$*/, double tower_cost_scaling_exp /*-*/);
+
+	double receiver_cost(double A_rec /*m^2*/, double rec_ref_cost /*$*/, double rec_ref_area /*m^2*/, double rec_cost_scaling_exp /*-*/);
+	
+	double tes_cost(double Q_storage /*MWt-hr*/, double tes_spec_cost /*$/kWt-hr*/);
+
+	double power_cycle_cost(double W_dot_design /*MWe*/, double power_cycle_spec_cost /*$/kWe*/);
+
+	double bop_cost(double W_dot_design /*MWe*/, double bop_spec_cost /*$/kWe*/);
+
+	double fossil_backup_cost(double W_dot_design /*MWe*/, double fossil_backup_spec_cost /*$/kWe*/);
+
+	double direct_capital_precontingency_cost(double site_improvement_cost /*$*/,
+		double heliostat_cost /*$*/,
+		double tower_cost /*$*/,
+		double receiver_cost /*$*/,
+		double tes_cost /*$*/,
+		double power_cycle_cost /*$*/,
+		double bop_cost /*$*/,
+		double fossil_backup_cost /*$*/);
+	
+	double contingency_cost( double contingency_rate /*%*/, double direct_capital_precontingency_cost /*$*/);
+
+	double total_direct_cost(double direct_capital_precontingency_cost /*$*/, double contingency_cost /*$*/);
+
+	double total_land_cost(double total_land_area /*acres*/, double total_direct_cost /*$*/, double plant_net_capacity /*MWe*/,
+		double land_spec_cost /*$/acre*/, double land_perc_direct_cost /*%*/, double land_spec_per_power_cost /*$/We*/, double land_fixed_cost /*$*/);
+
+	double epc_and_owner_cost(double total_land_area /*acres*/, double total_direct_cost /*$*/, double plant_net_capacity /*MWe*/,
+		double land_spec_cost /*$/acre*/, double land_perc_direct_cost /*%*/, double land_spec_per_power_cost /*$/We*/, double land_fixed_cost /*$*/);
+
+	double sales_tax_cost(double total_direct_cost /*$*/, double sales_tax_basis /*% of tot. direct cost*/, double sales_tax_rate /*%*/);
+
+	double total_indirect_cost(double total_land_cost /*$*/, double epc_and_owner_cost /*$*/, double sales_tax_cost /*$*/);
+
+	double total_installed_cost(double total_direct_cost /*$*/, double total_indirect_cost /*$*/);
+
+	double estimated_installed_cost_per_cap(double total_installed_cost /*$*/, double plant_net_capacity /*$*/);
+}
+
+namespace N_financial_parameters
+{
+	void construction_financing_total_cost(double total_installed_cost /*$*/,
+		double const_per_interest_rate1 /*%*/, double const_per_interest_rate2 /*%*/, double const_per_interest_rate3 /*%*/, double const_per_interest_rate4 /*%*/, double const_per_interest_rate5 /*%*/,
+		double const_per_months1 /*-*/, double const_per_months2 /*-*/, double const_per_months3 /*-*/, double const_per_months4 /*-*/, double const_per_months5 /*-*/,
+		double const_per_percent1 /*%*/, double const_per_percent2 /*%*/, double const_per_percent3 /*%*/, double const_per_percent4 /*%*/, double const_per_percent5 /*%*/,
+		double const_per_upfront_rate1 /*%*/, double const_per_upfront_rate2 /*%*/, double const_per_upfront_rate3 /*%*/, double const_per_upfront_rate4 /*%*/, double const_per_upfront_rate5 /*%*/,
+		double & const_per_principal1 /*$*/, double & const_per_principal2 /*$*/, double & const_per_principal3 /*$*/, double & const_per_principal4 /*$*/, double & const_per_principal5 /*$*/,
+		double & const_per_interest1 /*$*/, double & const_per_interest2 /*$*/, double & const_per_interest3 /*$*/, double & const_per_interest4 /*$*/, double & const_per_interest5 /*$*/,
+		double & const_per_total1 /*$*/, double & const_per_total2 /*$*/, double & const_per_total3 /*$*/, double & const_per_total4 /*$*/, double & const_per_total5 /*$*/,
+		double & const_per_percent_total /*%*/, double & const_per_principal_total /*$*/, double & const_per_interest_total /*$*/, double & construction_financing_cost /*$*/);
+
+	void construction_financing_loan_cost(double principal /*$*/, double interest_rate /*%*/, double term_months /*-*/, double upfront_rate /*%*/,
+		double & interest /*$*/, double & total_cost /*$*/);
+
+}
+
+
+#endif
